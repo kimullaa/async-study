@@ -12,8 +12,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 更新完了をDeferredResultにPUSHする
- * 更新完了をシステム通してPUSHしたい場合を想定し、
- * Singletonにする(リクエストごとに生成する版がCompletabueFutureTopic)
+ * すべてのIdに対する更新を受け付けるためにSingletonにする
+ * (taskごとに生成する版がCompletabueFutureTopic)
  */
 @Slf4j
 @Component
@@ -26,13 +26,11 @@ public class DeferredResultTopic {
      * @param id 監視するタスク
      * @param deferredResult 通知先
      */
-    public void subscribe(Long id, DeferredResult deferredResult) {
-        synchronized (map) {
-            List<DeferredResult> list = map.getOrDefault(id, new CopyOnWriteArrayList<>());
-            list.add(deferredResult);
-            map.put(id, list);
-            log.info("task id : " + id + "subscribe");
-        }
+    public synchronized void subscribe(Long id, DeferredResult deferredResult) {
+        List<DeferredResult> list = map.getOrDefault(id, new CopyOnWriteArrayList<>());
+        list.add(deferredResult);
+        map.put(id, list);
+        log.info("task id : " + id + "subscribe");
     }
 
     /**
@@ -40,12 +38,10 @@ public class DeferredResultTopic {
      *
      * @param task
      */
-    public void publish(Task task) {
+    public synchronized void publish(Task task) {
         List<DeferredResult> list;
-        synchronized (map) {
-            list = map.getOrDefault(task.getId(), new CopyOnWriteArrayList<>());
-            map.put(task.getId(), new CopyOnWriteArrayList<>());
-        }
+        list = map.getOrDefault(task.getId(), new CopyOnWriteArrayList<>());
+        map.put(task.getId(), new CopyOnWriteArrayList<>());
 
         log.info("publish: " + task.toString());
         list.forEach(i -> {
