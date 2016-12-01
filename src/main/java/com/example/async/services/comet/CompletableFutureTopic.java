@@ -5,8 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * 処理完了をpub/subするためのクラス
@@ -16,7 +14,6 @@ import java.util.concurrent.Executors;
 public class CompletableFutureTopic {
     private Task task;
     private final Long id;
-    private Executor executor = Executors.newFixedThreadPool(100);
     private CountDownLatch latch = new CountDownLatch(1);
 
     public CompletableFutureTopic(Long id) {
@@ -43,9 +40,11 @@ public class CompletableFutureTopic {
         this.task = task;
         latch.countDown();
         log.info("publish: " + task.toString());
+
+        latch = new CountDownLatch(1);
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 

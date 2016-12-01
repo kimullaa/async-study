@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CompletableFutureTopicStore {
     Map<Long, CompletableFutureTopic> store = new ConcurrentHashMap<>();
 
-
     public void add(CompletableFutureTopic topic) {
         store.put(topic.getId(), topic);
     }
@@ -22,7 +21,7 @@ public class CompletableFutureTopicStore {
         store.remove(id);
     }
 
-    public synchronized CompletableFutureTopic get(Long id) {
+    public CompletableFutureTopic get(Long id) {
         CompletableFutureTopic topic = store.get(id);
         if (topic == null) {
             throw new RuntimeException("タスクが存在しないかすでに完了しています");

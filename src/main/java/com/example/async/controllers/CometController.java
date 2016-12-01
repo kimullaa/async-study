@@ -2,10 +2,9 @@ package com.example.async.controllers;
 
 import com.example.async.models.Task;
 import com.example.async.services.comet.CometTaskService;
-import com.example.async.services.comet.CompletableFutureTopicStore;
-import com.example.async.services.comet.DeferredResultTopic;
 import com.example.async.services.common.SharedService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -15,14 +14,13 @@ import java.util.concurrent.CompletableFuture;
 /**
  * comet用のコントローラ
  */
+@Slf4j
 @RestController
 @RequestMapping("comet")
 @AllArgsConstructor
 public class CometController {
     final CometTaskService cometTaskService;
     final SharedService asyncSharedService;
-    final DeferredResultTopic deferredResultTopic;
-    final CompletableFutureTopicStore store;
 
     /**
      * タスクをスタートする
@@ -48,9 +46,7 @@ public class CometController {
      */
     @GetMapping("deferred-result/tasks/{id}")
     public DeferredResult<Task> statusDeferredResult(@PathVariable("id") Long id) {
-        final DeferredResult<Task> deferredResult = new DeferredResult<Task>();
-        deferredResultTopic.subscribe(id, deferredResult);
-        return deferredResult;
+        return cometTaskService.subscribeDeferredResultVersion(id);
     }
 
     /**
@@ -77,7 +73,12 @@ public class CometController {
      */
     @GetMapping("completable-future/tasks/{id}")
     public CompletableFuture<Task> statusCompletableFuture(@PathVariable("id") Long id) {
-        return store.get(id).subscribe();
+        log.info("controller ");
+        CompletableFuture<Task> future = cometTaskService.subscribeCompletableFutureVersion(id);
+        future.thenAccept(i -> {
+            log.info("CompletableFutureのコールバック処理");
+        });
+        return future;
     }
 
 }

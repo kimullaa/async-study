@@ -41,8 +41,7 @@ public class DeferredResultTopic {
         List<DeferredResult> list;
         list = map.getOrDefault(task.getId(), new CopyOnWriteArrayList<>());
         map.put(task.getId(), new CopyOnWriteArrayList<>());
-
-        log.info("publish: " + task.toString());
+log.info("publish: " + task.toString());
         list.forEach(i -> {
             i.setResult(task);
         });
