@@ -19,7 +19,7 @@ public class AsyncApplication {
     }
 
     /**
-     * デフォルトの動作では@Async実行のたびに新スレッドが生成される
+     * POINT: デフォルトの動作では@Async実行のたびに新スレッドが生成されるためスレッドプールを生成する
      * @return
      */
     @Bean

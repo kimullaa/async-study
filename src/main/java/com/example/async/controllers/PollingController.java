@@ -11,6 +11,7 @@ import java.util.Optional;
 /**
  * ポーリング用のコントローラ
  * ポーリングなのでServiceをexecuteしたあとの戻り値は利用しない
+ * POINT Spring4.3からはコンストラクタインジェクションを暗黙的にサポートするため@Autowired不要
  */
 @RestController
 @AllArgsConstructor
@@ -35,6 +36,7 @@ public class PollingController {
 
     /**
      * ポーリングのために現在のタスクの状態を表示する
+     * POINT: ポーリングはサーバから見ると通常のHTTPリクエストと変わらない
      *
      * @param id
      * @return

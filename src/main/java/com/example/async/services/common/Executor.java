@@ -14,9 +14,10 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class Executor {
     TaskRepository taskRepository;
+    private final int LATENCY_TIME_IN_SECONDS = 5;
 
     /**
-     * 2s待ったあとにタスクを1つ進める
+     * 一定時間待ったあとにタスクを1つ進める
      *
      * @param task
      */
@@ -24,13 +25,13 @@ public class Executor {
     public Task execute(Task task) {
 
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(LATENCY_TIME_IN_SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         task.setDone(task.getDone() + 1);
-        Task done =  taskRepository.save(task);
+        Task done = taskRepository.save(task);
         log.info("progress: " + done.toString());
         return done;
     }

@@ -11,9 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * 更新完了をDeferredResultにPUSHする
+ * 処理完了をpub/subするためのクラス
  * すべてのIdに対する更新を受け付けるためにSingletonにする
- * (taskごとに生成する版がCompletabueFutureTopic)
  */
 @Slf4j
 @Component

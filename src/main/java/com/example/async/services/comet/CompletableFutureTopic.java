@@ -9,7 +9,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * 処理完了をPUSHするためのクラス
+ * 処理完了をpub/subするためのクラス
+ * Topicはtaskごとに生成する
  */
 @Slf4j
 public class CompletableFutureTopic {
@@ -24,7 +25,7 @@ public class CompletableFutureTopic {
 
     /**
      * Taskが更新されるまでスレッドを止めて待つ
-     * Taskが更新されると(publishが呼ばれると)Futureを返す
+     * {@link CompletableFutureTopic#publish}が呼ばれると)Futureを返す
      */
     public CompletableFuture subscribe() {
         try {

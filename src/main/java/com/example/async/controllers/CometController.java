@@ -14,8 +14,6 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * comet用のコントローラ
- * SpringMVC外のスレッドで実行された値でも
- * DeferredResultにsetするとその値をレスポンスに返せる
  */
 @RestController
 @RequestMapping("comet")
@@ -28,7 +26,8 @@ public class CometController {
 
     /**
      * タスクをスタートする
-     * @param quantity
+     *
+     * @param quantity 総タスク数
      * @return
      */
     @PostMapping("deferred-result/tasks")
@@ -44,19 +43,20 @@ public class CometController {
      * 現在のタスクの状態を表示する(Comet版)
      * FIXME: 存在しないタスクIDや完了済みのタスクIDを指定すると延々待つ
      *
-     * @param id
+     * @param id タスクID
      * @return
      */
     @GetMapping("deferred-result/tasks/{id}")
     public DeferredResult<Task> statusDeferredResult(@PathVariable("id") Long id) {
         final DeferredResult<Task> deferredResult = new DeferredResult<Task>();
-         deferredResultTopic.subscribe(id,deferredResult);
+        deferredResultTopic.subscribe(id, deferredResult);
         return deferredResult;
     }
 
     /**
      * タスクをスタートする
-     * @param quantity
+     *
+     * @param quantity 総タスク数
      * @return
      */
     @PostMapping("completable-future/tasks")
@@ -70,9 +70,9 @@ public class CometController {
 
     /**
      * 現在のタスクの状態を表示する(Comet版)
-     * FIXME: 存在しないタスクIDや完了済みのタスクIDを指定すると延々待つ
+     * 存在しないタスクIDや完了済みのタスクIDを指定すると例外が発生する
      *
-     * @param id
+     * @param id タスクID
      * @return
      */
     @GetMapping("completable-future/tasks/{id}")
