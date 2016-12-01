@@ -48,10 +48,8 @@ public class CometTaskServiceImpl implements CometTaskService {
 
     @Async
     @Override
-    public DeferredResult<Task> subscribeDeferredResultVersion(Long id) {
-        final DeferredResult<Task> deferredResult = new DeferredResult<Task>();
+    public void subscribeDeferredResultVersion(Long id,DeferredResult deferredResult) {
         deferredResultTopic.subscribe(id, deferredResult);
-        return deferredResult;
     }
 
     @Async

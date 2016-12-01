@@ -46,7 +46,9 @@ public class CometController {
      */
     @GetMapping("deferred-result/tasks/{id}")
     public DeferredResult<Task> statusDeferredResult(@PathVariable("id") Long id) {
-        return cometTaskService.subscribeDeferredResultVersion(id);
+        DeferredResult<Task> deferredResult = new DeferredResult<Task>();
+        cometTaskService.subscribeDeferredResultVersion(id,deferredResult);
+        return deferredResult;
     }
 
     /**

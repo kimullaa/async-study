@@ -1,6 +1,7 @@
 package com.example.async.services.comet;
 
 
+import com.example.async.models.Task;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +33,7 @@ public interface CometTaskService {
      *
      * @param id
      */
-    public DeferredResult subscribeDeferredResultVersion(Long id);
+    public void subscribeDeferredResultVersion(Long id,DeferredResult<Task> deferredResult);
 
     /**
      * タスクの完了を待つ
