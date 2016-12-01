@@ -121,6 +121,11 @@ JMSの場合
 - アクティブでないウィンドウではポーリング間隔を調整すると、負荷を減らせる
   page visibility api<https://developer.mozilla.org/ja/docs/Web/Guide/User_experience/Using_the_Page_Visibility_API>
 
+### Chromeにおけるロングポーリング
+Chromeは同じURLに対するリクエストが複数投げられた場合、
+キャッシュを有効活用するために初めに投げられるリクエストを待ち続ける。(stalled)  
+<http://stackoverflow.com/questions/27513994/chrome-stalls-when-making-multiple-requests-to-same-resource>
+
 ### javaにおける非同期API
 Future,CompletableFuture,Stream ...
 <http://www.slideshare.net/SpringCentral/imperative-to-reactive-web-applications>
