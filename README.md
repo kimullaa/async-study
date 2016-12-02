@@ -124,6 +124,8 @@ JMSの場合
 ### Chromeにおけるロングポーリング
 Chromeは同じURLに対するリクエストが複数投げられた場合、
 キャッシュを有効活用するために初めに投げられるリクエストを待ち続ける。(stalled)  
+PUSHしたいデータが複数リクエストに配信できるかをchromeで
+複数リクエスト投げて確認すると、見かけ上配信できてない感じになる。
 <http://stackoverflow.com/questions/27513994/chrome-stalls-when-making-multiple-requests-to-same-resource>
 
 ### javaにおける非同期API
